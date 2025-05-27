@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.Re
   }
 
   if (requireAdmin && user?.role !== 'admin') {
-    return <Navigate to="/dashboard\" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
   
   return (
@@ -48,7 +48,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.Re
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter basename="/">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<SignInPage />} />
@@ -107,7 +107,7 @@ function App() {
           />
           
           {/* Fallback route */}
-         <Route path="*" element={<Navigate to="/\" replace />} />
+         <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
       
