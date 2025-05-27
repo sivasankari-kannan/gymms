@@ -1,34 +1,66 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import Input from '../ui/Input';
-import Button from '../ui/Button';
+// import React, { useState } from 'react';
+// import { useNavigate, Link } from 'react-router-dom';
+// import { Mail, Lock } from 'lucide-react';
+// import { useAuth } from '../../context/AuthContext';
+// import Input from '../ui/Input';
+// import Button from '../ui/Button';
 
+// const SignInForm: React.FC = () => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+//   const { login, isLoading } = useAuth();
+//   const navigate = useNavigate();
+
+//   const validate = () => {
+//     const newErrors: { email?: string; password?: string } = {};
+//     if (!email) newErrors.email = 'Email is required';
+//     if (!password) newErrors.password = 'Password is required';
+    
+//     setErrors(newErrors);
+//     return Object.keys(newErrors).length === 0;
+//   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+    
+//     if (!validate()) return;
+    
+//     try {
+//       await login(email, password);
+//       navigate('/dashboard');
+//     } catch (error) {
+//       setErrors({ email: 'Invalid email or password' });
+//     }
+//   };
 const SignInForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  const { login, isLoading } = useAuth();
+  const { login, isLoading, user } = useAuth();
   const navigate = useNavigate();
 
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
     if (!email) newErrors.email = 'Email is required';
     if (!password) newErrors.password = 'Password is required';
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validate()) return;
-    
+
     try {
       await login(email, password);
-      navigate('/dashboard');
+
+      if (user?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+
     } catch (error) {
       setErrors({ email: 'Invalid email or password' });
     }
