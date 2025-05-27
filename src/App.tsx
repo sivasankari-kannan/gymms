@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.Re
   }
 
   if (requireAdmin && user?.role !== 'admin') {
-    return <Navigate to="/dashboard\" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
   
   return (
@@ -62,6 +62,12 @@ function App() {
                 <AdminDashboardPage />
               </ProtectedRoute>
             }
+          />
+
+          {/* Redirect /gym-owners to /admin */}
+          <Route
+            path="/gym-owners"
+            element={<Navigate to="/admin" replace />}
           />
           
           {/* Protected Routes */}
@@ -107,7 +113,7 @@ function App() {
           />
           
           {/* Fallback route */}
-         <Route path="*" element={<Navigate to="/\" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
       
