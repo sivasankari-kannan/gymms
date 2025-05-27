@@ -13,10 +13,11 @@ import DashboardPage from './pages/DashboardPage';
 import MembersPage from './pages/MembersPage';
 import MembershipsPage from './pages/MembershipsPage';
 import AttendancePage from './pages/AttendancePage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 
 // Protected Route Component
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated, isLoading } = useAuth();
+const ProtectedRoute = ({ children, requireAdmin = false }: { children: React.ReactNode; requireAdmin?: boolean }) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
   
   if (isLoading) {
     return (
@@ -26,15 +27,21 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
   
-  return isAuthenticated ? (
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (requireAdmin && user?.role !== 'admin') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
       <main className="flex-1 p-8">
         {children}
       </main>
     </div>
-  ) : (
-    <Navigate to="/signin" replace />
   );
 };
 
@@ -46,6 +53,16 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          
+          {/* Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
           
           {/* Protected Routes */}
           <Route

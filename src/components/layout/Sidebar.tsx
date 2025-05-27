@@ -8,7 +8,8 @@ import {
   Clock,
   Calendar,
   LogOut,
-  User
+  Settings,
+  Building2
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -17,7 +18,11 @@ const Sidebar = () => {
   
   const isActive = (path: string) => location.pathname === path;
   
-  const menuItems = [
+  const menuItems = user?.role === 'admin' ? [
+    { path: '/admin', icon: LayoutDashboard, label: 'Admin Dashboard' },
+    { path: '/gym-owners', icon: Building2, label: 'Gym Owners' },
+    { path: '/settings', icon: Settings, label: 'Settings' },
+  ] : [
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/members', icon: Users, label: 'Members' },
     { path: '/memberships', icon: CreditCard, label: 'Memberships' },

@@ -26,6 +26,13 @@ export function formatTime(date: Date | string): string {
   });
 }
 
+export function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount);
+}
+
 export function generateAvatarUrl(name: string): string {
   const initials = name
     .split(' ')

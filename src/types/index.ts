@@ -47,3 +47,33 @@ export interface DashboardSummary {
   }[];
   recentAttendance: Attendance[];
 }
+
+export interface GymOwner {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  gymName: string;
+  subscriptionStatus: 'active' | 'inactive' | 'trial';
+  subscriptionPlan: string;
+  subscriptionStartDate: string;
+  lastLoginDate: string;
+  memberCount: number;
+  revenue: number;
+}
+
+export interface AdminDashboardStats {
+  totalGymOwners: number;
+  activeSubscriptions: number;
+  trialSubscriptions: number;
+  monthlyRecurringRevenue: number;
+  recentGymOwners: GymOwner[];
+  subscriptionStats: {
+    name: string;
+    value: number;
+  }[];
+  revenueData: {
+    date: string;
+    amount: number;
+  }[];
+}
