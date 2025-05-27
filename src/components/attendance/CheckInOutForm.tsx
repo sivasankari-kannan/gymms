@@ -9,7 +9,7 @@ const CheckInOutForm: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Member[]>([]);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-  const [isCheckingIn, setIsCheckingIn] = useState(true);
+  const [mode, setMode] = useState<'check-in' | 'check-out'>('check-in');
 
   useEffect(() => {
     if (searchTerm.length >= 2) {
@@ -29,17 +29,13 @@ const CheckInOutForm: React.FC = () => {
     setSelectedMember(member);
     setSearchTerm('');
     setSearchResults([]);
-    
-    // Determine if member is checking in or out
-    // For demo purposes, we'll alternate
-    setIsCheckingIn(Math.random() > 0.5);
   };
 
   const handleCheckInOut = () => {
     if (!selectedMember) return;
     
     // Here you would normally make an API call to check the member in/out
-    alert(`${selectedMember.name} has been ${isCheckingIn ? 'checked in' : 'checked out'} successfully!`);
+    alert(`${selectedMember.name} has been ${mode === 'check-in' ? 'checked in' : 'checked out'} successfully!`);
     
     // Reset form
     setSelectedMember(null);
@@ -48,9 +44,28 @@ const CheckInOutForm: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-enter">
+      <div className="flex space-x-4">
+        <Button
+          variant={mode === 'check-in' ? 'primary' : 'outline'}
+          onClick={() => setMode('check-in')}
+          leftIcon={<UserCheck size={18} />}
+          className="flex-1"
+        >
+          Check In
+        </Button>
+        <Button
+          variant={mode === 'check-out' ? 'primary' : 'outline'}
+          onClick={() => setMode('check-out')}
+          leftIcon={<UserX size={18} />}
+          className="flex-1"
+        >
+          Check Out
+        </Button>
+      </div>
+
       <div className="relative">
         <Input
-          label="Search for member"
+          label={`Search member to ${mode === 'check-in' ? 'check in' : 'check out'}`}
           placeholder="Name, email or phone number"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,14 +115,14 @@ const CheckInOutForm: React.FC = () => {
             </div>
           </div>
           
-          <div className="mt-4 flex">
+          <div className="mt-4">
             <Button
               onClick={handleCheckInOut}
-              variant={isCheckingIn ? 'primary' : 'secondary'}
+              variant="primary"
               className="w-full"
-              leftIcon={isCheckingIn ? <UserCheck size={18} /> : <UserX size={18} />}
+              leftIcon={mode === 'check-in' ? <UserCheck size={18} /> : <UserX size={18} />}
             >
-              {isCheckingIn ? 'Check In' : 'Check Out'}
+              {mode === 'check-in' ? 'Confirm Check In' : 'Confirm Check Out'}
             </Button>
           </div>
         </div>

@@ -1,8 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { UserCheck } from 'lucide-react';
 import PageHeader from '../components/layout/PageHeader';
-import Button from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import CheckInOutForm from '../components/attendance/CheckInOutForm';
 import AttendanceList from '../components/attendance/AttendanceList';
@@ -18,7 +15,7 @@ const AttendancePage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle>Check In / Check Out</CardTitle>
+            <CardTitle>Member Check In/Out</CardTitle>
           </CardHeader>
           <CardContent>
             <CheckInOutForm />
